@@ -2,7 +2,9 @@ import { setCookie, getCookie } from './cookies.js';
 import{usuaris, Usuari} from './usuari.js';
 
 let cardContainer;//Variable
-
+let citesClient = [];
+let userCookie;
+let loginButton;
 
 class Cita {//Classe
   constructor(client, estat, treballador, data, tempsEstimat, tempsReal){
@@ -106,11 +108,19 @@ cardContainer = document.getElementById('card-container');
 mostrarLogin();//Declaracio de funcio
 };
 
+function novaCita(){
+  let dataActual = document.getElementById('start').value;
+  let crearCita = new Cita(userCookie,"pendent","",dataActual,"","");
+  citesClient.push(crearCita);
+  console.log(citesClient)
+  
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
   "use strict";//Strict
 
-  let userCookie=getCookie("username");
+  userCookie=getCookie("username");
   console.log(userCookie);
   
     const myRequest = new Request('cites.json');//json
@@ -119,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
    .then(response => response.json())
    .then(cites => {
 
-    let citesClient = [];
+    
       //
     let llistaCites = () => {
         if (cardContainer) {
@@ -131,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
         cites.forEach((cita) => {
             if (cita.client == userCookie)
               citesClient.push(new Cita(cita.client, cita.estat, cita.treballador, cita.data, cita.tempsEstimat, cita.tempsReal)); 
-              cita.dibuixar;
             
         });
 
@@ -139,20 +148,35 @@ document.addEventListener("DOMContentLoaded", function () {
           c.dibuixar();
         }
         
+        let calendari = document.createElement("input");
+        calendari.type="date";
+        calendari.id="start";
+        calendari.value="2020-12-18";
+        calendari.min="2020-12-18"
+        calendari.max="2021-12-31";
+        let contenidorCalendari = document.getElementById("nova-data");
+        contenidorCalendari.appendChild(calendari);
 
         let botoNou = document.createElement("button");
         botoNou.className="btn btn-primary";
-        botoNou.textContent="Nova cita(No funciona)";
-        
-
+        botoNou.textContent="Nova cita";//Deuria recargar les cites, pero no funciona de moment
         let contenidorBoto = document.getElementById("boto1");
         contenidorBoto.appendChild(botoNou);
+
     };
-    
+
     
     
     if (userCookie != "") {
       llistaCites();
+      let afegir = document.getElementById("boto1");
+
+       function recargar() {
+        novaCita();
+        llistaCites();
+      } 
+
+      afegir.onclick = recargar;
     }else{
       
       //llistaCites();
