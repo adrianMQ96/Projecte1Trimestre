@@ -1,0 +1,7 @@
+[
+    {"client":"Adrian","estat":"pendent","treballador":"Joan","data":"","tempsEstimat":"","tempsReal":""},
+    {"client":"Alex","estat":"confirmada","treballador":"Andreu","data":"14/12/2020","tempsEstimat":"","tempsReal":""},
+    {"client":"Adrian","estat":"execucio","treballador":"Pablo","data":"16/12/2020","tempsEstimat":"2","tempsReal":""},
+    {"client":"Alex","estat":"finalitzada","treballador":"Joan","data":"09/11/2020","tempsEstimat":"2","tempsReal":"3"}
+]
+
